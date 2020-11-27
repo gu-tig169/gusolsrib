@@ -4,14 +4,14 @@ import 'dart:convert';
 import 'package:to_do_list/Todo.dart';
 
 
-const API_KEY = 'ebb8aec0-d8d6-42c9-a383-a2db4038876e';
+const API_KEY = 'cf792016-20bf-43be-a53b-0378adc60c39';
 const API_URL = 'https://todoapp-api-vldfm.ondigitalocean.app/todos?key=';
 
 
 class InternetFetcher{
   
 
-  static getTitle() async{
+  static getList() async{
     http.Response response = await http.get('$API_URL$API_KEY');
     //var jSondata = response.body;
     //var obj = jsonDecode(jSondata);
@@ -24,13 +24,12 @@ class InternetFetcher{
           return todoList;
   }
 
-static  postTodo(todo) async{
+static Future  postTodo(todo) async{
     //http.Response response = await http.post('$API_URL/$API_KEY',body:{'title':'apa','done':true} );
      http.Response response = await http.post('https://todoapp-api-vldfm.ondigitalocean.app/todos?key=$API_KEY',
         headers: <String, String>{"Content-Type": "application/json"},
         body: jsonEncode(<String, dynamic>{'title': todo.text, "done": todo.value}));
-       var jSondata = response.body;
-       var obj = jsonDecode(jSondata);
+       
      // return obj['id'];
     
     //var jSondata = response.body;
@@ -39,17 +38,21 @@ static  postTodo(todo) async{
   }
 static Future<String>putTodo(todo) async{
   var id = todo.id;
+  var body = jsonEncode(<String, dynamic>{'title': todo.text, "done": todo.value});
   print(id);
-    http.Response response = await http.put('https://todoapp-api-vldfm.ondigitalocean.app/todos/:$id?key=$API_KEY'
+  print(body);
+    http.Response response = await http.put('https://todoapp-api-vldfm.ondigitalocean.app/todos/$id?key=$API_KEY'
     ,headers: <String, String>{"Content-Type": "application/json"},
-        body: jsonEncode(<String, dynamic>{'title': todo.text, "done": todo.value}));
+        body: body);
+        print(response.body);
      
   }
-static Future<String>deleteTodo() async{
-    http.Response response = await http.delete('https://todoapp-api-vldfm.ondigitalocean.app/');
-    var jSondata = response.body;
-    var obj = jsonDecode(jSondata);
-    return obj['title'];
+static Future<String>deleteTodo(todo) async{
+    var id = todo.index;
+    http.Response response = await http.delete('https://todoapp-api-vldfm.ondigitalocean.app/$id?key=$API_KEY');
+   // var jSondata = response.body;
+   // var obj = jsonDecode(jSondata);
+   // return obj['title'];
   }
 
 

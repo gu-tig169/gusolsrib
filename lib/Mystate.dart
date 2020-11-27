@@ -8,7 +8,7 @@ import 'InternetFetcher.dart';
 
 class Mystate extends ChangeNotifier{ 
 
-  Mystate(){InternetFetcher.getTitle();}
+  Mystate(){InternetFetcher.getList();}
   
   String _filterlistby ='all';
   List<Todo> todolist = List();
@@ -52,25 +52,29 @@ class Mystate extends ChangeNotifier{
   }
 
   void setList()async{
-    todolist = await InternetFetcher.getTitle();
+    todolist = await InternetFetcher.getList();
+    notifyListeners();
+    print(todolist);
   }
 
-  void addItem(String item){
+  void addItem(String item)async{
     Todo todo = Todo(text: item,value:false );
     
 
     //InternetFetcher posttodo = InternetFetcher(title: item,done: false);
-    var id = InternetFetcher.postTodo(todo);
-    todo.setID(id);
-    notifyListeners();
+    await InternetFetcher.postTodo(todo);
+    setList();
+    
   }
   void addItemdone(String item,int index){
   
     notifyListeners();
   }
 
-  void removeItem(index){
+  void removeItem(index,todo)async{
    todolist.removeAt(index);
+   await InternetFetcher.deleteTodo(todo);
+    setList();
    
      notifyListeners();
   }
@@ -86,9 +90,10 @@ class Mystate extends ChangeNotifier{
     return list[index].value;
   }
   
-  void setCheckBox( index,newValue,todo){
+  void setCheckBox( index,newValue,todo)async{
     list[index].value = newValue;
-    InternetFetcher.putTodo(todo);
+    await InternetFetcher.putTodo(todo);
+    setList();
        
     notifyListeners();
     
