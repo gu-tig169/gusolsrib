@@ -4,6 +4,10 @@ import 'package:to_do_list/Todo.dart';
 import './SecondView.dart';
 import 'package:provider/provider.dart';
 import './Mystate.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'InternetFetcher.dart';
+
 
 void main() {
   var state = Mystate();
@@ -72,6 +76,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
          ], 
       ),
       body: MyList(),
+      
       bottomSheet: Padding(
         padding: const EdgeInsets.all(16.0), 
         child: TextField(
@@ -89,14 +94,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
     
   }
 }
-/*
-List<MyList> _filterList(list,filterby){
 
-  if (filterby == 'all') return state.todolist;
-  if (filterby == true) 
-  return list.where( == true);
-
-}*/
 
 
 class MyList extends StatelessWidget{
@@ -105,7 +103,7 @@ class MyList extends StatelessWidget{
   Widget build(BuildContext context){
     return Consumer<Mystate>(builder: (context,state,child)=>
            ListView.builder(itemBuilder: (context,index) =>
-           _item(context,state.list[index],index,state),   // state.list[index]
+           _item(context,state.list[index],index,state),  
       itemCount: state.list.length,
       ),
     );
@@ -118,7 +116,7 @@ class MyList extends StatelessWidget{
      CheckboxListTile(controlAffinity:ListTileControlAffinity.leading,activeColor: Colors.blue,
       value: state.getCheckBox(index),
        onChanged: (bool newValue){
-         state.setCheckBox(index,newValue);
+         state.setCheckBox(index,newValue,state.list[index]);
         
 
       },

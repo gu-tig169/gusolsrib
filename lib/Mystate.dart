@@ -4,13 +4,17 @@ import 'package:to_do_list/Todo.dart';
 import './SecondView.dart';
 import 'package:provider/provider.dart';
 import './Mystate.dart';
-
+import 'InternetFetcher.dart';
 
 class Mystate extends ChangeNotifier{ 
+
+  Mystate(){InternetFetcher.getTitle();}
+  
   String _filterlistby ='all';
   List<Todo> todolist = List();
   List<Todo> donelist = List();
   List <Todo> remaining = List();
+
 
   List<dynamic> get list {
 
@@ -47,10 +51,17 @@ class Mystate extends ChangeNotifier{
     
   }
 
+  void setList()async{
+    todolist = await InternetFetcher.getTitle();
+  }
+
   void addItem(String item){
     Todo todo = Todo(text: item,value:false );
-    todolist.add(todo);
+    
 
+    //InternetFetcher posttodo = InternetFetcher(title: item,done: false);
+    var id = InternetFetcher.postTodo(todo);
+    todo.setID(id);
     notifyListeners();
   }
   void addItemdone(String item,int index){
@@ -75,8 +86,9 @@ class Mystate extends ChangeNotifier{
     return list[index].value;
   }
   
-  void setCheckBox( index,newValue){
+  void setCheckBox( index,newValue,todo){
     list[index].value = newValue;
+    InternetFetcher.putTodo(todo);
        
     notifyListeners();
     
