@@ -43,8 +43,6 @@ class Mystate extends ChangeNotifier{
   }
     
    Iterable<Todo> filterlist(filterlistby){
-    
-    
     if (filterlistby == 'remaining') {return todolist.where((item) => item.value == false);}
     if (filterlistby == 'Done') {return todolist.where((item) => item.value== true);}
     else {return todolist;}
@@ -54,36 +52,22 @@ class Mystate extends ChangeNotifier{
   void setList()async{
     todolist = await InternetFetcher.getList();
     notifyListeners();
-    print(todolist);
+    //print(todolist);
   }
 
   void addItem(String item)async{
+    
     Todo todo = Todo(text: item,value:false );
-    
-
-    //InternetFetcher posttodo = InternetFetcher(title: item,done: false);
     await InternetFetcher.postTodo(todo);
-    setList();
-    
-  }
-  void addItemdone(String item,int index){
-  
-    notifyListeners();
+    setList(); 
   }
 
   void removeItem(index,todo)async{
-   todolist.removeAt(index);
-   await InternetFetcher.deleteTodo(todo);
-    setList();
    
-     notifyListeners();
-  }
-
-
-  void updateItem(int index, String newContent){
-   // _list[index] = newContent;
+   await InternetFetcher.deleteTodo(todo);
+   todolist.removeAt(index);
     notifyListeners();
-
+     
   }
 
   getCheckBox(index){
@@ -94,8 +78,6 @@ class Mystate extends ChangeNotifier{
     list[index].value = newValue;
     await InternetFetcher.putTodo(todo);
     setList();
-       
-    notifyListeners();
     
   }
   

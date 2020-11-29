@@ -122,7 +122,8 @@ class MyList extends StatelessWidget{
       },
       title:Text(state.list[index].text),
       secondary: IconButton(onPressed: (){
-      Provider.of<Mystate>(context,listen: false).removeItem(index,state.list);
+        
+      Provider.of<Mystate>(context,listen: false).removeItem(index,state.list[index]);
     },
       icon: Icon(Icons.delete)) ,
       );

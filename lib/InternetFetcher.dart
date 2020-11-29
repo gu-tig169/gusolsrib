@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:to_do_list/Todo.dart';
 
-
-const API_KEY = 'cf792016-20bf-43be-a53b-0378adc60c39';
+// ;'cf792016-20bf-43be-a53b-0378adc60c39'
+const API_KEY = '28194af2-37c6-4905-8e51-1e3180bf421c';
 const API_URL = 'https://todoapp-api-vldfm.ondigitalocean.app/todos?key=';
 
 
@@ -40,16 +40,20 @@ static Future<String>putTodo(todo) async{
   var id = todo.id;
   var body = jsonEncode(<String, dynamic>{'title': todo.text, "done": todo.value});
   print(id);
-  print(body);
+  //print(body);
     http.Response response = await http.put('https://todoapp-api-vldfm.ondigitalocean.app/todos/$id?key=$API_KEY'
     ,headers: <String, String>{"Content-Type": "application/json"},
         body: body);
-        print(response.body);
+        //print(response.body);
      
   }
 static Future<String>deleteTodo(todo) async{
-    var id = todo.index;
-    http.Response response = await http.delete('https://todoapp-api-vldfm.ondigitalocean.app/$id?key=$API_KEY');
+    var id = todo.id;
+    print(id);
+    var body = jsonEncode(<String, dynamic>{'title': todo.text, "done": todo.value});
+    http.Response response = await http.delete('https://todoapp-api-vldfm.ondigitalocean.app/todos/$id?key=$API_KEY'
+    ,headers: <String, String>{"Content-Type": "application/json"});
+   // print(response);
    // var jSondata = response.body;
    // var obj = jsonDecode(jSondata);
    // return obj['title'];
