@@ -53,7 +53,11 @@ class _MyCustomFormState extends State<MyCustomForm> {
     myController.dispose();
     super.dispose();
   }
-
+  void initState(){
+    super.initState();
+    Provider.of<Mystate>(context,listen: false).setList();
+    
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +83,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
       
       bottomSheet: Padding(
         padding: const EdgeInsets.all(16.0), 
-        child: TextField(
+        child: TextField(decoration: new InputDecoration(hintText:'Write your Todo here and press "+" to add'),
           controller: myController, 
         ),  
       ),
