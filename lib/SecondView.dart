@@ -10,12 +10,12 @@ import 'Mystate.dart';
 class SecondView extends StatelessWidget {
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(title: Text('Done Todos'),backgroundColor: Colors.blue ),
+      appBar: AppBar(title: Text('To Be Continued'),backgroundColor: Colors.blue ),
       body:
       Center(child: Consumer<Mystate>(builder: (context,state,child)=>MyList()
       
     )
-    ),floatingActionButton: _fab(context),
+    ),//floatingActionButton: _fab(context),
     );
   }
 }
