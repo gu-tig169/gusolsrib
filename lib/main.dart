@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:to_do_list/Todo.dart';
 import './SecondView.dart';
@@ -7,8 +6,6 @@ import './Mystate.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'InternetFetcher.dart';
-
-
 void main() {
   var state = Mystate();
   runApp(
@@ -16,7 +13,6 @@ void main() {
     child:MyApp(),)
     );
 }
-
 class MyApp extends StatelessWidget {
   
   @override
@@ -33,15 +29,11 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
 class MyCustomForm extends StatefulWidget {
   
   @override
   _MyCustomFormState createState() => _MyCustomFormState();
 }
-
-
 class _MyCustomFormState extends State<MyCustomForm> {
   
   final myController = TextEditingController();
@@ -51,12 +43,14 @@ class _MyCustomFormState extends State<MyCustomForm> {
   void dispose() {
     // Clean up the controller when the widget is disposed.
     myController.dispose();
+    
     super.dispose();
   }
+
   void initState(){
     super.initState();
     Provider.of<Mystate>(context,listen: false).setList();
-    
+
   }
   @override
   Widget build(BuildContext context) {
@@ -80,9 +74,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
          ], 
       ),
       body: MyList(),
-      
+
       bottomSheet: Padding(
         padding: const EdgeInsets.all(16.0), 
+        
         child: TextField(decoration: new InputDecoration(hintText:'Write your Todo here and press "+" to add'),
           controller: myController, 
         ),  
@@ -92,18 +87,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
           state.addItem(myController.text);
       },child: Icon(Icons.add),
       ),
-
       
     );
     
   }
 }
-
-
-
 class MyList extends StatelessWidget{
-
-
   Widget build(BuildContext context){
     return Consumer<Mystate>(builder: (context,state,child)=>
            ListView.builder(itemBuilder: (context,index) =>
@@ -112,7 +101,6 @@ class MyList extends StatelessWidget{
       ),
     );
   }
-
  
   Widget _item(context,item,index,state ){
     
@@ -122,7 +110,6 @@ class MyList extends StatelessWidget{
        onChanged: (bool newValue){
          state.setCheckBox(index,newValue,state.list[index]);
         
-
       },
       title:Text(state.list[index].text),
       secondary: IconButton(onPressed: (){
@@ -131,8 +118,6 @@ class MyList extends StatelessWidget{
     },
       icon: Icon(Icons.delete)) ,
       );
-
     
   }
 }
-
